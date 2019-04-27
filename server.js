@@ -1,17 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+var routes = require('./todoRoutes/route');
 
 const app = express();
 
 
 const port = 8000;
 
-var routes = require('./todoRoutes/route');
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-routes(app);
+routes.addTodo(app);
 
-app.listen(port, () => {
-  console.log('We are live on ' + port);
-});
+// eslint-disable-next-line no-console
+app.listen(port, () => console.log(`App listening on port ${port}!`));

@@ -6,24 +6,20 @@ const db = low(adapter);
 
 var todoId = 0;
 
-db.defaults({ posts: []})
-  .write();
+db.defaults({ posts: [] }).write();
 
-exports.pushToDb = (todoTask) =>  {
+exports.pushToDb = (todoTask) => {
   const totalTodos = this.getAllTodo();
-  todoId = totalTodos && totalTodos.length +1;
-  console.log(db.get('posts'));
-db.get('posts')
-  .push({ id: todoId,
+
+  // eslint-disable-next-line no-magic-numbers
+  todoId = totalTodos && totalTodos.length + 1;
+db.get('posts').
+push({ id: todoId,
     taskName: todoTask.taskName,
-    taskStatus: todoTask.taskStatus
-  })
-  .write();
+    taskStatus: todoTask.taskStatus }).
+    write();
 
   return true;
-}
+};
 
-exports.getAllTodo = () => {
-  return db.get('posts')
-  .value;
-}
+exports.getAllTodo = () => db.get('posts').value();

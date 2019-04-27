@@ -1,10 +1,11 @@
-module.exports = function(app) {
-  var todoList = require('../controller/todoListController');
+var todoList = require('../controller/todoListController');
 
-  // todoList Routes
-  app.post("/addTodo", function (req, res) {
+exports.addTodo = (app) => {
+  // TodoList Routes
+  app.post('/addTodo', (req, res) => {
     var data = todoList.addTodo(req.body);
+
     res.json(data);
   });
 
-}
+};
