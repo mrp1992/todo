@@ -1,17 +1,12 @@
-var dbUtil = require('../../todoDao/dbUtil');
-var jest = require('jest');
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
+var dbUtil = require('../dbUtil');
+var db = require('../db');
 
-const adapter = new FileSync('../dataStore/test/db.json');
-const db = jest.fn;
-
-jest.mock(db);
+jest.mock('../db', () => jest.fn());
 
 describe('dbUtil', () => {
   it('should get all Tasks from DB', () => {
-    db.get('posts').thenReturn
+    db.get = jest.fn().mockReturnValue({value: 1});  
     let data = dbUtil.getAllTodo();
-    expect(data.length).toBe(1);
+    expect(data).toBe(1);
   })
 })

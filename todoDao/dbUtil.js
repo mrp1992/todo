@@ -1,10 +1,4 @@
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
-var ServiceException = require('../exception/serviceException');
-
-const adapter = new FileSync('./dataStore/db.json');
-const db = low(adapter);
-
+var db = require('./db');
 var todoId = 0;
 
 db.defaults({ posts: [] }).write();
@@ -39,6 +33,14 @@ exports.updateTodoStatus = (todoTask) => {
   posts.
     assign({ taskStatus: todoTask.taskStatus.toUpperCase() }).
     write();
+  todoId = totalTodos && totalTodos.length +1;
+  console.log(db.get('posts'));
+  db.get('posts')
+    .push({ id: todoId,
+      taskName: todoTask.taskName,
+      taskStatus: todoTask.taskStatus
+    })
+    .write();
 
   return true;
 };
