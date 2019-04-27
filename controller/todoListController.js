@@ -5,3 +5,9 @@ exports.addTodo = (todoTask) => {
 
   return { 'taskAdded': isTaskAdded };
 };
+
+exports.updateStatus = (updateStatus) => {
+  var isStatusUpdated = dbUtil.updateTodoStatus(updateStatus);
+
+  return { 'taskUpdated': isStatusUpdated };
+};
