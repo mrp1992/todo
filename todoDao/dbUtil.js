@@ -18,7 +18,7 @@ exports.pushToDb = (todoTask) => {
     push({
       id: todoId,
       taskName: todoTask.taskName,
-      taskStatus: todoTask.taskStatus
+      taskStatus: todoTask.taskStatus.toUpperCase()
     }).
     write();
 
@@ -32,10 +32,18 @@ exports.updateTodoStatus = (todoTask) => {
     throw new ServiceException(400, 'No such id present');
   }
   db.get('posts').find({ id: todoTask.id }).
-    assign({ taskStatus: todoTask.taskStatus }).
+    assign({ taskStatus: todoTask.taskStatus.toUpperCase() }).
     write();
 
   return true;
 };
 
-exports.getAllTodo = () => db.get('posts').value();
+exports.getAllTodo = (taskStatus) => {
+  if (taskStatus) {
+    return db.get('posts').filter({ taskStatus: taskStatus.toUpperCase() }).
+      value();
+  }
+
+  return db.get('posts').value();
+
+};

@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-magic-numbers */
 var todoController = require('../controller/todoListController');
 
 exports.addTodo = (app) => {
@@ -23,6 +25,27 @@ exports.addTodo = (app) => {
 
       res.status(e.statusCode());
     }
+
+    res.json(response);
+  });
+
+  app.get('/tasks', (req, res) => {
+    let response = null;
+
+    if (!req.query || !req.query.taskStatus) {
+      response = {
+        message: 'Missing status',
+        status: 400
+      };
+
+      res.status(400);
+      res.json(response);
+
+      return res;
+    }
+    const status = req.query && req.query.taskStatus;
+
+    response = todoController.fetchTodoTask(status);
 
     res.json(response);
   });

@@ -7,7 +7,23 @@ exports.addTodo = (todoTask) => {
 };
 
 exports.updateStatus = (updateStatus) => {
-  var isStatusUpdated = dbUtil.updateTodoStatus(updateStatus);
+  const isStatusUpdated = dbUtil.updateTodoStatus(updateStatus);
 
   return { 'taskUpdated': isStatusUpdated };
+};
+
+exports.fetchTodoTask = (taskStatus) => {
+  const tasks = dbUtil.getAllTodo(taskStatus);
+
+  const allTasks = [];
+
+  tasks.forEach((task) => {
+    allTasks.push({
+      id: task.id,
+      task: task.taskName,
+      taskStatus: task.taskStatus
+    });
+  });
+
+  return allTasks;
 };
