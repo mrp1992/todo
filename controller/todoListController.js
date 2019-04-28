@@ -12,8 +12,8 @@ exports.updateStatus = (updateStatus) => {
   return { 'taskUpdated': isStatusUpdated };
 };
 
-exports.fetchTodoTask = (taskStatus) => {
-  const tasks = dbUtil.getAllTodo(taskStatus);
+exports.fetchTodoTask = (taskStatus, userId) => {
+  const tasks = dbUtil.getFilteredTodo(taskStatus, userId);
 
   const allTasks = [];
 
