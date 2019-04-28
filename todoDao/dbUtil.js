@@ -1,4 +1,5 @@
-var db = require('./db');
+const db = require('./db').db;
+
 var todoId = 0;
 
 db.defaults({ posts: [] }).write();
