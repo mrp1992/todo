@@ -33,3 +33,13 @@ userId: String,<br/>
 password: base64 encoded String<br/>
 }<br/>
 provide inputs in as json body and all parameters are mandatory
+
+## Get Todo:
+Url: `localhost:8000/tasks?taskStatus=All`<br/>
+type: get <br/>
+query parameter: <br/>
+    - taskStatus: All, Active, Completed<br/>
+header parameter: <br/>
+    - userId: String<br/>
+    - password: base64 encoded String<br/>
+all parameters are mandatory    

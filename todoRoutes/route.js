@@ -9,9 +9,7 @@ exports.addTodo = (app) => {
     let response = null;
 
     try {
-      this.paramBodyValidation(req.body.userId);
-      this.paramBodyValidation(req.body.password);
-      this.userValidation(req.body.userId, req.body.password);
+      this.addTodoValidation(req.body);
 
       response = todoController.addTodo(req.body);
     } catch (execption) {
@@ -29,9 +27,7 @@ exports.addTodo = (app) => {
     let response;
 
     try {
-      this.paramBodyValidation(req.body.userId);
-      this.paramBodyValidation(req.body.password);
-      this.userValidation(req.body.userId, req.body.password);
+      this.defaultValidation(req.body, false);
 
       response = todoController.updateStatus(req.body);
     } catch (exception) {
@@ -48,8 +44,7 @@ exports.addTodo = (app) => {
     let response = null;
 
     try {
-      this.basicValidation(req);
-      this.queryParamValidation(req.query);
+      this.getTodoValidation(req);
 
       const status = req.query.taskStatus;
 
@@ -92,13 +87,16 @@ exports.paramBodyValidation = (param) => {
   }
 };
 
-exports.queryParamValidation = (queryParam) => {
-  if (!queryParam || !queryParam.taskStatus) {
+exports.getTodoValidation = (req) => {
+  this.headerValidation(req);
+  if (!req.query || !req.query.taskStatus) {
     throw new ServiceException(400, 'Missing status');
   }
+
+  this.checkStatusValidation(req.query.taskStatus, true);
 };
 
-exports.basicValidation = (req) => {
+exports.headerValidation = (req) => {
   const userId = req.header('userId');
   const password = req.header('password');
 
@@ -107,3 +105,39 @@ exports.basicValidation = (req) => {
   this.userValidation(userId, password);
 };
 
+exports.addTodoValidation = (body) => {
+  const { taskName } = body;
+
+  this.defaultValidation(body, false);
+
+  if (!taskName) {
+    throw new ServiceException(400, 'param not provided');
+  }
+};
+
+exports.defaultValidation = (body, isFetchTodo) => {
+  const { userId, password, taskStatus } = body;
+
+  if (!(userId && password && taskStatus)) {
+    throw new ServiceException(400, 'Missing one of the parameter');
+  }
+
+  this.userValidation(userId, password);
+  this.checkStatusValidation(taskStatus, isFetchTodo);
+};
+
+exports.checkStatusValidation = (status, isFetchTodo) => {
+  switch (status.toUpperCase()) {
+    case 'ACTIVE': break;
+
+    case 'COMPLETED': break;
+
+    case 'ALL':
+      if (isFetchTodo) {
+        break;
+      }
+
+    // eslint-disable-next-line no-fallthrough
+    default: throw new ServiceException('Invalid status provided', 400);
+  }
+};
