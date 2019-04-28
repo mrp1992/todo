@@ -1,4 +1,5 @@
 const { db } = require('./db');
+const ServiceException = require('../exception/serviceException');
 
 var todoId = 0;
 
@@ -21,11 +22,15 @@ exports.pushToDb = (todoTask) => {
   return true;
 };
 
+const getPostsByIdAndUser = (id, user) => {
+  db.get('posts').find({
+      id,
+      user
+    });
+};
+
 exports.updateTodoStatus = (todoTask) => {
-  const posts = db.get('posts').find({
-    id: todoTask.id,
-    user: todoTask.userId
-  });
+  const posts = getPostsByIdAndUser(todoTask.id, todoTask.user);
 
   if (!posts.value()) {
     // eslint-disable-next-line no-magic-numbers
@@ -34,23 +39,26 @@ exports.updateTodoStatus = (todoTask) => {
   posts.
     assign({ taskStatus: todoTask.taskStatus.toUpperCase() }).
     write();
-  todoId = totalTodos && totalTodos.length +1;
-  console.log(db.get('posts'));
-  db.get('posts')
-    .push({ id: todoId,
+
+  const totalTodos = this.getAllTodos();
+
+  // eslint-disable-next-line no-magic-numbers
+  todoId = totalTodos && totalTodos.length + 1;
+
+  db.get('posts').
+    push({ id: todoId,
       taskName: todoTask.taskName,
-      taskStatus: todoTask.taskStatus
-    })
-    .write();
+      taskStatus: todoTask.taskStatus }).
+    write();
 
   return true;
 };
 
-exports.getAllTodo = () => db.get('posts').value();
+exports.getAllTodos = () => db.get('posts').value();
 
 exports.getFilteredTodo = (taskStatus, userId) => {
   if (taskStatus.toUpperCase() === 'ALL') {
-    return this.getAllTodo();
+    return this.getAllTodos();
   }
 
   return db.get('posts').filter({
