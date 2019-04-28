@@ -267,5 +267,13 @@
         "wrap-regex": "error",
         "yield-star-spacing": "error",
         "yoda": "error"
-    }
+    },
+    "overrides": [
+        {
+            "files": ["*/test/*.test.js"],
+            "rules": {
+                "max-lines-per-function": "off"
+            }
+        }
+    ]
 }
