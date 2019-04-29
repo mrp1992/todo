@@ -6,7 +6,7 @@ class ServiceException extends Error {
         this.message = message;
     }
 
-    statusCode () {
+    getStatus () {
         return this.status;
     }
 

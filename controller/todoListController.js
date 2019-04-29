@@ -7,9 +7,9 @@ exports.addTodo = (todoTask) => {
 };
 
 exports.updateStatus = (updateStatus) => {
-  const isStatusUpdated = dbUtil.updateTodoStatus(updateStatus);
+  const task = dbUtil.updateTodoStatus(updateStatus);
 
-  return { 'taskUpdated': isStatusUpdated };
+  return task;
 };
 
 exports.fetchTodoTask = (taskStatus, userId) => {

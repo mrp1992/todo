@@ -16,7 +16,7 @@ describe('dbUtil', () => {
       taskStatus: 'status2',
       user: 'user2'
     }
-];
+  ];
 
   beforeAll(() => {
     db.defaults = jest.fn().mockReturnValue({ write: () => jest.fn() });
@@ -43,24 +43,7 @@ describe('dbUtil', () => {
     dbUtil.getAllTodos = jest.fn();
     dbUtil.getFilteredTodo('all', 'user1');
 
-      // eslint-disable-next-line no-magic-numbers
+    // eslint-disable-next-line no-magic-numbers
     expect(dbUtil.getAllTodos).toHaveBeenCalledTimes(1);
   });
-
-  // it('should update Task\'s status in DB', () => {
-  //   const value = { value: () => mockedTasks[0] };
-
-  //   db.get = jest.fn().mockReturnValue({ find: () => value });
-
-  //   const todoTask = {
-  //     id: '1',
-  //     taskName: 'taskName',
-  //     taskStatus: 'status',
-  //     user: 'user1'
-  //   }
-
-  //   const data = dbUtil.updateTodoStatus(todoTask);
-
-  //   expect(data).toBe(mockedTasks);
-  // });
 });
