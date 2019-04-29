@@ -14,11 +14,11 @@ exports.addTodo = (app) => {
       this.userValidation(req.body.userId, req.body.password);
 
       response = todoController.addTodo(req.body);
-    } catch (execption) {
-      res.status(execption.statusCode());
+    } catch (exception) {
+      res.status(exception.statusCode());
       response = this.erroRequest(
-        execption.getMessage(),
-        execption.statusCode()
+        exception.getMessage(),
+        exception.statusCode()
       );
     }
     res.json(response);
