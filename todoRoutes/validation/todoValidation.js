@@ -40,6 +40,16 @@ exports.validateAddTodo = (body) => {
     this.validStatus(taskStatus);
 };
 
+exports.validateRemoveTodo = (body) => {
+    const { id, taskName, userId, password } = body;
+
+    this.userValidation(userId, password);
+
+    if (!(id, taskName)) {
+        throw new ServiceException(400, 'Missing parameters');
+    }
+}
+
 exports.validStatus = (status) => {
     switch (status.toUpperCase()) {
         case 'ACTIVE': break;

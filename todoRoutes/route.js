@@ -63,7 +63,7 @@ exports.addTodo = (app) => {
     let response = null;
 
     try {
-      validate.userValidation(req.body.userId, req.body.password);
+      validate.validateRemoveTodo(req.body);
 
       response = todoController.removeTodo(req.body);
     } catch (exception) {
