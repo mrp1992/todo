@@ -7,9 +7,9 @@ exports.addTodo = (todoTask) => {
 };
 
 exports.updateStatus = (updateStatus) => {
-  const task = dbUtil.updateTodoStatus(updateStatus);
+  const isTaskUpdated = dbUtil.updateTodoStatus(updateStatus);
 
-  return task;
+  return { taskUpdate: isTaskUpdated };
 };
 
 exports.fetchTodoTask = (taskStatus, userId) => {
@@ -26,4 +26,10 @@ exports.fetchTodoTask = (taskStatus, userId) => {
   });
 
   return allTasks;
+};
+
+exports.removeTodo = (removeTask) => {
+  const isTaskRemoved = dbUtil.removeTodo(removeTask);
+
+  return { taskRemoved: isTaskRemoved };
 };

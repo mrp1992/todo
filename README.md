@@ -42,4 +42,17 @@ query parameter: <br/>
 header parameter: <br/>
     - userId: String<br/>
     - password: base64 encoded String<br/>
-all parameters are mandatory    
+all parameters are mandatory   
+
+## Remove Todo:
+Url: `http://localhost:8000/removeTodo`<br/>
+type: post <br/>
+
+parameters: { <br/>
+id: Integer,<br/>
+taskName: String,<br/>
+userId: String,<br/>
+password: base64 encoded String<br/>
+}<br/>
+provide inputs in as json body and all parameters are mandatory
+

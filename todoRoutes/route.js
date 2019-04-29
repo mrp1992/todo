@@ -58,6 +58,23 @@ exports.addTodo = (app) => {
     }
     res.json(response);
   });
+
+  app.post('/removeTodo', (req, res) => {
+    let response = null;
+
+    try {
+      validate.userValidation(req.body.userId, req.body.password);
+
+      response = todoController.removeTodo(req.body);
+    } catch (exception) {
+      response = this.erroRequest(
+        exception.getMessage(),
+        exception.getStatus()
+      );
+      res.status(exception.getStatus());
+    }
+    res.json(response);
+  });
 };
 
 exports.erroRequest = (errorMessage, statusCode) => {

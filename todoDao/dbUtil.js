@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 const { db } = require('./db');
 const ServiceException = require('../exception/serviceException');
 
@@ -24,12 +25,10 @@ exports.pushToDb = (todoTask) => {
   return task;
 };
 
-const getPostsByIdAndUser = (id, user) => {
-  return db.get('posts').find({
+const getPostsByIdAndUser = (id, user) => db.get('posts').find({
     id,
     user
   });
-};
 
 exports.updateTodoStatus = (todoTask) => {
   const posts = getPostsByIdAndUser(todoTask.id, todoTask.userId);
@@ -57,4 +56,27 @@ exports.getFilteredTodo = (taskStatus, userId) => {
     user: userId
   }).
     value();
+};
+
+exports.removeTodo = (removeTask) => {
+  const { id, userId, taskName } = removeTask;
+  const posts = db.get('posts').find({
+    id,
+    taskName,
+    user: userId
+  });
+
+  if (!(posts && posts.value())) {
+    throw new ServiceException(400, 'No such id/user present');
+  }
+
+  db.get('posts').
+  remove({
+    id,
+    taskName,
+    user: userId
+  }).
+  write();
+
+  return true;
 };
