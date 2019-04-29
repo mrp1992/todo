@@ -48,7 +48,7 @@ exports.validateRemoveTodo = (body) => {
     if (!(id, taskName)) {
         throw new ServiceException(400, 'Missing parameters');
     }
-}
+};
 
 exports.validStatus = (status) => {
     switch (status.toUpperCase()) {
