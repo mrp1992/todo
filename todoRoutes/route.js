@@ -1,43 +1,40 @@
 /* eslint-disable max-lines-per-function */
 const todoController = require('../controller/todoListController');
 const validate = require('./validation/todoValidation');
+const { NO_CONTENT, OK } = require('http-status-codes');
 
 exports.addTodo = (app) => {
   // TodoList Routes
-  app.post('/addTodo', (req, res) => {
-    let response = null;
-
+  app.put('/addTodo', (req, res) => {
     try {
       validate.userValidation(req.body.userId, req.body.password);
       validate.validateAddTodo(req.body);
 
-      response = todoController.addTodo(req.body);
+      todoController.addTodo(req.body);
+
+      res.sendStatus(NO_CONTENT);
     } catch (exception) {
       res.status(exception.getStatus());
-      response = this.erroRequest(
+       res.json(this.erroRequest(
         exception.getMessage(),
-        exception.statusCode()
-      );
+        exception.getStatus()
+      ));
     }
-    res.json(response);
   });
 
   app.post('/updateStatus', (req, res) => {
-    // eslint-disable-next-line init-declarations
-    let response;
-
     try {
       validate.userValidation(req.body.userId, req.body.password);
 
-      response = todoController.updateStatus(req.body);
+      todoController.updateStatus(req.body);
+      res.sendStatus(OK);
     } catch (exception) {
-      response = this.erroRequest(
+      res.status(exception.getStatus());
+      res.json(this.erroRequest(
         exception.getMessage(),
         exception.getStatus()
-      );
-      res.status(exception.getStatus());
+      ));
     }
-    res.json(response);
   });
 
   app.get('/tasks', (req, res) => {
@@ -59,7 +56,7 @@ exports.addTodo = (app) => {
     res.json(response);
   });
 
-  app.post('/removeTodo', (req, res) => {
+  app.delete('/removeTodo', (req, res) => {
     let response = null;
 
     try {

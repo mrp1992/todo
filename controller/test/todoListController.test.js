@@ -6,18 +6,16 @@ jest.mock('../../todoDao/dbUtil');
 describe('todoListController', () => {
   it('should add task to DB', () => {
     dbUtil.pushToDb = jest.fn().mockReturnValue(true);
-    const data = controller.addTodo({ taskName: 'name',
-taskStatus: 'Active' });
+    const data = controller.addTodo({ taskName: 'name', taskStatus: 'Active' });
 
-    expect(data.taskAdded).toBeTruthy();
+    expect(data).toBeTruthy();
   });
 
   it('should update Status of task in DB', () => {
     dbUtil.updateTodoStatus = jest.fn().mockReturnValue(false);
-    const data = controller.updateStatus({ taskName: 'name',
-taskStatus: 'Active' });
+    const data = controller.updateStatus({ taskName: 'name', taskStatus: 'Active' });
 
-    expect(data.taskUpdated).toBeFalsy();
+    expect(data).toBeFalsy();
   });
 
   it('should fetch todo task by status from DB', () => {

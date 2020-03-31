@@ -2,11 +2,22 @@
 const { db } = require('./db');
 const ServiceException = require('../exception/serviceException');
 
-var todoId = 0;
+let todoId = 0;
 
 db.defaults({ posts: [] }).write();
 
+const getPostByTaskAndUser = (taskName, user) => db.get('posts').find({
+  taskName,
+  user
+});
+
 exports.pushToDb = (todoTask) => {
+  const posts = getPostByTaskAndUser(todoTask.taskName, todoTask.userId);
+
+  if (posts && posts.value()) {
+    // eslint-disable-next-line no-magic-numbers
+    throw new ServiceException(400, 'task already present');
+  }
   const totalTodos = this.getAllTodos();
 
   // eslint-disable-next-line no-magic-numbers
@@ -21,27 +32,18 @@ exports.pushToDb = (todoTask) => {
   db.get('posts').
     push(task).
     write();
-
-  return task;
 };
 
-const getPostsByIdAndUser = (id, user) => db.get('posts').find({
-    id,
-    user
-  });
-
 exports.updateTodoStatus = (todoTask) => {
-  const posts = getPostsByIdAndUser(todoTask.id, todoTask.userId);
+  const posts = getPostByTaskAndUser(todoTask.taskName, todoTask.userId);
 
   if (!(posts && posts.value())) {
     // eslint-disable-next-line no-magic-numbers
-    throw new ServiceException(400, 'No such id/user present');
+    throw new ServiceException(400, 'No such task present');
   }
   posts.
     assign({ taskStatus: todoTask.taskStatus.toUpperCase() }).
     write();
-
-  return true;
 };
 
 exports.getAllTodos = () => db.get('posts').value();

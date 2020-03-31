@@ -1,16 +1,8 @@
 var dbUtil = require('../todoDao/dbUtil');
 
-exports.addTodo = (todoTask) => {
-  var isTaskAdded = dbUtil.pushToDb(todoTask);
+exports.addTodo = (todoTask) => dbUtil.pushToDb(todoTask);
 
-  return { 'taskAdded': isTaskAdded };
-};
-
-exports.updateStatus = (updateStatus) => {
-  const isTaskUpdated = dbUtil.updateTodoStatus(updateStatus);
-
-  return { taskUpdate: isTaskUpdated };
-};
+exports.updateStatus = (updateStatus) => dbUtil.updateTodoStatus(updateStatus);
 
 exports.fetchTodoTask = (taskStatus, userId) => {
   const tasks = dbUtil.getFilteredTodo(taskStatus, userId);
