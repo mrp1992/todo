@@ -14,7 +14,7 @@
 
 ## Add Todo:
 Url: `http://localhost:8000/addTodo` <br/>
-type: post <br/>
+type: put <br/>
 parameters: { <br/>
 taskName: String,<br/>
 taskStatus: String,<br/>
@@ -27,7 +27,7 @@ provide inputs in as json body and all parameters are mandatory
 Url: `http://localhost:8000/updateStatus`<br/>
 type: post <br/>
 parameters: { <br/>
-id: Integer,<br/>
+taskName: String,<br/>
 taskStatus: String,<br/>
 userId: String,<br/>
 password: base64 encoded String<br/>
@@ -46,7 +46,7 @@ all parameters are mandatory
 
 ## Remove Todo:
 Url: `http://localhost:8000/removeTodo`<br/>
-type: post <br/>
+type: delete <br/>
 
 parameters: { <br/>
 id: Integer,<br/>
