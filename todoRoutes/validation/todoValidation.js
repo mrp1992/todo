@@ -1,9 +1,25 @@
-/* eslint-disable no-magic-numbers */
-var ServiceException = require('../../exception/serviceException');
+import { BAD_REQUEST, UNAUTHORIZED } from 'http-status-codes';
+import ServiceException from '../../exception/serviceException';
 
-exports.userValidation = (userId, password) => {
+const UNAUTHORIZED_TEXT = 'Invalid userId/password provided';
+const MISSING_PARAMS = 'Missing parameters';
+const INVALID_STATUS = 'Invalid status provided';
+const MISSING_USER_ID_PASSWORD = 'userId/password missing';
+const MISSING_STATUS = 'Missing status';
+
+export const validStatus = (status) => {
+    switch (status.toUpperCase()) {
+        case 'ACTIVE': break;
+
+        case 'COMPLETED': break;
+
+        default: throw new ServiceException(BAD_REQUEST, INVALID_STATUS);
+    }
+};
+
+export const userValidation = (userId, password) => {
     if (!(userId && password)) {
-        throw new ServiceException(400, 'userId/password missing');
+        throw new ServiceException(BAD_REQUEST, MISSING_USER_ID_PASSWORD);
     }
     // eslint-disable-next-line no-undef
     const buff = Buffer.from(password, 'base64');
@@ -12,50 +28,40 @@ exports.userValidation = (userId, password) => {
     if (userId !== decodedPassword.split('').
         reverse().
         join('')) {
-        throw new ServiceException(401, 'Invalid userId/password provided');
+        throw new ServiceException(UNAUTHORIZED, UNAUTHORIZED_TEXT);
     }
 };
 
-exports.queryParamValidation = (queryParam) => {
+export const queryParamValidation = (queryParam) => {
     if (!queryParam || !queryParam.taskStatus) {
-        throw new ServiceException(400, 'Missing status');
+        throw new ServiceException(BAD_REQUEST, MISSING_STATUS);
     }
 };
 
-exports.validateFetchTask = (req) => {
+export const validateFetchTask = (req) => {
     const userId = req.header('userId');
     const password = req.header('password');
 
-    this.userValidation(userId, password);
-    this.queryParamValidation(req.query);
+    userValidation(userId, password);
+    queryParamValidation(req.query);
 };
 
-exports.validateAddTodo = (body) => {
+export const validateAddTodo = (body) => {
     const { taskName, taskStatus } = body;
 
     if (!(taskName && taskStatus)) {
-        throw new ServiceException(400, 'Missing parameters');
+        throw new ServiceException(BAD_REQUEST, MISSING_PARAMS);
     }
 
-    this.validStatus(taskStatus);
+    validStatus(taskStatus);
 };
 
-exports.validateRemoveTodo = (body) => {
+export const validateRemoveTodo = (body) => {
     const { id, taskName, userId, password } = body;
 
-    this.userValidation(userId, password);
+    userValidation(userId, password);
 
     if (!(id, taskName)) {
-        throw new ServiceException(400, 'Missing parameters');
-    }
-};
-
-exports.validStatus = (status) => {
-    switch (status.toUpperCase()) {
-        case 'ACTIVE': break;
-
-        case 'COMPLETED': break;
-
-        default: throw new ServiceException(400, 'Invalid status provided');
+        throw new ServiceException(BAD_REQUEST, MISSING_PARAMS);
     }
 };

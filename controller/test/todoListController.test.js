@@ -1,19 +1,21 @@
-var controller = require('../todoListController');
-var dbUtil = require('../../todoDao/dbUtil');
+import * as controller from '../todoListController';
 
-jest.mock('../../todoDao/dbUtil');
+const pushToDb = () => true;
+
+const dbUtil = jest.mock('../../todoDao/dbUtil', () => ({ pushToDb }));
 
 describe('todoListController', () => {
   it('should add task to DB', () => {
-    dbUtil.pushToDb = jest.fn().mockReturnValue(true);
-    const data = controller.addTodo({ taskName: 'name', taskStatus: 'Active' });
+    const data = controller.addTodo({ taskName: 'name',
+taskStatus: 'Active' });
 
     expect(data).toBeTruthy();
   });
 
   it('should update Status of task in DB', () => {
     dbUtil.updateTodoStatus = jest.fn().mockReturnValue(false);
-    const data = controller.updateStatus({ taskName: 'name', taskStatus: 'Active' });
+    const data = controller.updateStatus({ taskName: 'name',
+taskStatus: 'Active' });
 
     expect(data).toBeFalsy();
   });

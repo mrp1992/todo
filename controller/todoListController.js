@@ -1,10 +1,10 @@
-var dbUtil = require('../todoDao/dbUtil');
+import dbUtil from '../todoDao/dbUtil';
 
-exports.addTodo = (todoTask) => dbUtil.pushToDb(todoTask);
+export const addTodo = (todoTask) => dbUtil.pushToDb(todoTask);
 
-exports.updateStatus = (updateStatus) => dbUtil.updateTodoStatus(updateStatus);
+export const updateStatus = (status) => dbUtil.updateTodoStatus(status);
 
-exports.fetchTodoTask = (taskStatus, userId) => {
+export const fetchTodoTask = (taskStatus, userId) => {
   const tasks = dbUtil.getFilteredTodo(taskStatus, userId);
 
   const allTasks = [];
@@ -20,8 +20,10 @@ exports.fetchTodoTask = (taskStatus, userId) => {
   return allTasks;
 };
 
-exports.removeTodo = (removeTask) => {
+export const removeTodo = (removeTask) => {
   const isTaskRemoved = dbUtil.removeTodo(removeTask);
 
   return { taskRemoved: isTaskRemoved };
 };
+
+

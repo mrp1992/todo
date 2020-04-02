@@ -1,5 +1,5 @@
-var dbUtil = require('../dbUtil');
-var { db } = require('../db');
+import { db } from '../db';
+import dbUtil from '../dbUtil';
 
 describe('dbUtil', () => {
 

@@ -1,21 +1,25 @@
-/* eslint-disable max-lines-per-function */
-const todoController = require('../controller/todoListController');
-const validate = require('./validation/todoValidation');
-const { NO_CONTENT, OK } = require('http-status-codes');
+import * as controller from '../controller/todoListController';
+import * as validation from './validation/todoValidation';
+import { NO_CONTENT, OK } from 'http-status-codes';
 
-exports.addTodo = (app) => {
+export const errorRequest = (errorMessage, statusCode) => ({
+  message: errorMessage,
+  status: statusCode
+});
+
+export const todo = (app) => {
   // TodoList Routes
   app.put('/addTodo', (req, res) => {
     try {
-      validate.userValidation(req.body.userId, req.body.password);
-      validate.validateAddTodo(req.body);
+      validation.userValidation(req.body.userId, req.body.password);
+      validation.validateAddTodo(req.body);
 
-      todoController.addTodo(req.body);
+      controller.addTodo(req.body);
 
       res.sendStatus(NO_CONTENT);
     } catch (exception) {
       res.status(exception.getStatus());
-       res.json(this.erroRequest(
+       res.json(errorRequest(
         exception.getMessage(),
         exception.getStatus()
       ));
@@ -24,13 +28,13 @@ exports.addTodo = (app) => {
 
   app.post('/updateStatus', (req, res) => {
     try {
-      validate.userValidation(req.body.userId, req.body.password);
+      validation.userValidation(req.body.userId, req.body.password);
 
-      todoController.updateStatus(req.body);
+      controller.updateStatus(req.body);
       res.sendStatus(OK);
     } catch (exception) {
       res.status(exception.getStatus());
-      res.json(this.erroRequest(
+      res.json(errorRequest(
         exception.getMessage(),
         exception.getStatus()
       ));
@@ -41,14 +45,14 @@ exports.addTodo = (app) => {
     let response = null;
 
     try {
-      validate.validateFetchTask(req);
+      validation.validateFetchTask(req);
 
       const status = req.query.taskStatus;
 
-      response = todoController.fetchTodoTask(status, req.header('userId'));
+      response = controller.fetchTodoTask(status, req.header('userId'));
     } catch (exception) {
       res.status = exception.statusCode();
-      response = this.erroRequest(
+      response = errorRequest(
         exception.getMessage(),
         exception.statusCode()
       );
@@ -60,11 +64,11 @@ exports.addTodo = (app) => {
     let response = null;
 
     try {
-      validate.validateRemoveTodo(req.body);
+      validation.validateRemoveTodo(req.body);
 
-      response = todoController.removeTodo(req.body);
+      response = controller.removeTodo(req.body);
     } catch (exception) {
-      response = this.erroRequest(
+      response = errorRequest(
         exception.getMessage(),
         exception.getStatus()
       );
@@ -72,13 +76,4 @@ exports.addTodo = (app) => {
     }
     res.json(response);
   });
-};
-
-exports.erroRequest = (errorMessage, statusCode) => {
-  const response = {
-    message: errorMessage,
-    status: statusCode
-  };
-
-  return response;
 };

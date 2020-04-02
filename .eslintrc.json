@@ -11,7 +11,8 @@
         "SharedArrayBuffer": "readonly"
     },
     "parserOptions": {
-        "ecmaVersion": 2018
+        "ecmaVersion": 2018,
+        "sourceType": "module"
     },
     "rules": {
         "accessor-pairs": "error",
@@ -85,7 +86,7 @@
         "max-depth": "error",
         "max-len": "error",
         "max-lines": "error",
-        "max-lines-per-function": "error",
+        "max-lines-per-function": "warn",
         "max-nested-callbacks": "error",
         "max-params": "error",
         "max-statements": "error",

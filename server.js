@@ -9,7 +9,7 @@ const port = 8000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-routes.addTodo(app);
+routes.todo(app);
 
 // eslint-disable-next-line no-console
 app.listen(port, () => console.log(`App listening on port ${port}!`));

@@ -1,6 +1,6 @@
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
+import FileSync from 'lowdb/adapters/FileSync';
+import low from 'lowdb';
 
 const adapter = new FileSync('./dataStore/db.json');
 
-exports.db = low(adapter);
+export const db = low(adapter);
