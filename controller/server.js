@@ -1,6 +1,7 @@
+import * as routes from '../todoRoutes/route';
+
 const express = require('express');
 const bodyParser = require('body-parser');
-var routes = require('./todoRoutes/route');
 
 const app = express();
 

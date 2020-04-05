@@ -4,8 +4,9 @@
   "description": "Application to create todo list",
   "main": "index.js",
   "scripts": {
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
     "test": "jest",
-    "start": "node server.js",
+    "start": "npm run build && node dist/controller/server.js",
     "lint": "eslint --ignore-pattern **/test/** ."
   },
   "repository": {
@@ -20,11 +21,14 @@
     "lowdb": "^1.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "http-status-codes": "^1.4.0",
     "jest": "^25.2.4",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "rimraf": "^3.0.2"
   }
 }

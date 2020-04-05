@@ -1,3 +1,16 @@
 {
-  "posts": []
+  "posts": [
+    {
+      "id": 1,
+      "taskName": "task2",
+      "taskStatus": "ACTIVE",
+      "user": "1234"
+    },
+    {
+      "id": 2,
+      "taskName": "task3",
+      "taskStatus": "ACTIVE",
+      "user": "1234"
+    }
+  ]
 }

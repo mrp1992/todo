@@ -18,10 +18,10 @@ export const todo = (app) => {
 
       res.sendStatus(NO_CONTENT);
     } catch (exception) {
-      res.status(exception.getStatus());
+      res.status(exception.status);
        res.json(errorRequest(
-        exception.getMessage(),
-        exception.getStatus()
+        exception.message,
+        exception.status
       ));
     }
   });
@@ -33,10 +33,10 @@ export const todo = (app) => {
       controller.updateStatus(req.body);
       res.sendStatus(OK);
     } catch (exception) {
-      res.status(exception.getStatus());
+      res.status(exception.status);
       res.json(errorRequest(
-        exception.getMessage(),
-        exception.getStatus()
+          exception.message,
+          exception.status
       ));
     }
   });
@@ -51,11 +51,11 @@ export const todo = (app) => {
 
       response = controller.fetchTodoTask(status, req.header('userId'));
     } catch (exception) {
-      res.status = exception.statusCode();
-      response = errorRequest(
-        exception.getMessage(),
-        exception.statusCode()
-      );
+      res.status(exception.status);
+      res.json(errorRequest(
+          exception.message,
+          exception.status
+      ));
     }
     res.json(response);
   });
@@ -68,11 +68,11 @@ export const todo = (app) => {
 
       response = controller.removeTodo(req.body);
     } catch (exception) {
-      response = errorRequest(
-        exception.getMessage(),
-        exception.getStatus()
-      );
-      res.status(exception.getStatus());
+      res.status(exception.status);
+      res.json(errorRequest(
+          exception.message,
+          exception.status
+      ));
     }
     res.json(response);
   });

@@ -1,4 +1,4 @@
-import dbUtil from '../todoDao/dbUtil';
+import * as dbUtil from '../todoDao/dbUtil';
 
 export const addTodo = (todoTask) => dbUtil.pushToDb(todoTask);
 
@@ -25,5 +25,3 @@ export const removeTodo = (removeTask) => {
 
   return { taskRemoved: isTaskRemoved };
 };
-
-
